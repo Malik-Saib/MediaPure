@@ -1,0 +1,77 @@
+# Production stack for MediaPure: PostgreSQL + FastAPI + Next.js behind nginx (TLS).
+#   cp ../backend/.env.example ../backend/.env   # then fill in secrets
+#   export DOMAIN=mediapure.com POSTGRES_PASSWORD=...
+#   docker compose up -d --build
+# See ../DEPLOYMENT.md for certificates, sizing and first-run steps.
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: aimr
+      POSTGRES_USER: aimr
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ../backend/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aimr -d aimr"]
+      interval: 10s
+      retries: 5
+
+  api:
+    build: ../backend
+    restart: unless-stopped
+    env_file: ../backend/.env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://aimr:${POSTGRES_PASSWORD}@db:5432/aimr
+      TEMP_DIR: /tmp/aimr
+    # Video needs real scratch space. A job can briefly hold three copies of one file
+    # (the upload, the rewrite and the scrubbed candidate), so size this at roughly
+    #   3 x MAX_VIDEO_MB x VIDEO_WORKERS  +  headroom for finished downloads.
+    # At the defaults (500 MB, 2 workers) that is ~3 GB; 8 GB leaves comfortable room.
+    # A RAM-backed tmpfs works too if the host has the memory to spare — see DEPLOYMENT.md.
+    volumes:
+      - mediatmp:/tmp
+    tmpfs:
+      - /run:size=8m,mode=1777
+    read_only: true
+    security_opt: ["no-new-privileges:true"]
+    depends_on:
+      db: { condition: service_healthy }
+
+  web:
+    build:
+      context: ../frontend
+      args:
+        NEXT_PUBLIC_SITE_URL: https://${DOMAIN:?set DOMAIN}
+        NEXT_PUBLIC_MAX_FILE_MB: "25"
+        NEXT_PUBLIC_MAX_VIDEO_MB: "500"
+        BACKEND_URL: http://api:8000
+    restart: unless-stopped
+    security_opt: ["no-new-privileges:true"]
+    depends_on: [api]
+
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports: ["80:80", "443:443"]
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./nginx.conf:/etc/nginx/templates/default.conf.template:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - certbot-www:/var/www/certbot:ro
+    depends_on: [web, api]
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - certbot-www:/var/www/certbot
+    entrypoint: /bin/sh -c "trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot --quiet; sleep 12h & wait $${!}; done"
+
+volumes:
+  pgdata:
+  certbot-www:
+  mediatmp:

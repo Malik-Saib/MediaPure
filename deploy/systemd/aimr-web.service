@@ -1,0 +1,20 @@
+# Serves the Next.js standalone build. Build first: cd /opt/aimr/frontend && npm ci && npm run build
+#   then: cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/
+[Unit]
+Description=MediaPure web (Next.js)
+After=network.target aimr-api.service
+
+[Service]
+User=aimr
+Group=aimr
+WorkingDirectory=/opt/aimr/frontend/.next/standalone
+Environment=NODE_ENV=production PORT=3000 HOSTNAME=127.0.0.1 NEXT_TELEMETRY_DISABLED=1
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

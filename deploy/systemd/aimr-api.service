@@ -1,0 +1,28 @@
+# Plain-VPS alternative to Docker. Install to /etc/systemd/system/, then:
+#   systemctl daemon-reload && systemctl enable --now aimr-api
+[Unit]
+Description=MediaPure API (FastAPI)
+After=network.target postgresql.service
+
+[Service]
+User=aimr
+Group=aimr
+WorkingDirectory=/opt/aimr/backend
+EnvironmentFile=/opt/aimr/backend/.env
+ExecStart=/opt/aimr/backend/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 --proxy-headers --forwarded-allow-ips 127.0.0.1 --no-server-header
+Restart=always
+RestartSec=3
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/tmp
+# PrivateTmp gives this unit its own /tmp, which is where TEMP_DIR lives. Video needs
+# real space there: roughly 3 x MAX_VIDEO_MB x VIDEO_WORKERS, plus finished downloads.
+# Memory does not scale with file size — video is streamed, never loaded whole — so the
+# cap below stays modest. Raise it only if you also raise PROCESSING_WORKERS.
+MemoryMax=2G
+
+[Install]
+WantedBy=multi-user.target

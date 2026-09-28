@@ -1,0 +1,236 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-jbmono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --color-ink: #0a1433;
+  --color-ink-2: #2a3659;
+  --color-muted: #5b6784;
+  --color-paper: #f6f8fc;
+  --color-line: #dce3f0;
+  --color-line-strong: #c5d2ea;
+  --color-signal: #1463ff;
+  --color-signal-deep: #0b45c7;
+  --color-cyan: #12c2f2;
+  --color-clean: #0b9e74;
+  --color-alert: #d9364a;
+  --color-amber: #c77700;
+  /* Darker text tones for small labels on 10% tints (WCAG AA 4.5:1). */
+  --color-alert-ink: #b01e33;
+  --color-amber-ink: #8a5200;
+
+  /* ── Type scale ──────────────────────────────────────────────────────────
+     Eight steps, and no more. The four utility steps below cover every piece
+     of UI text; the four heading steps live in `.t-*` classes further down so
+     size, weight, tracking and leading always travel together. */
+  --text-xs: 0.8125rem;          /* 13px — micro labels, timers, table meta */
+  --text-xs--line-height: 1.5;
+  --text-sm: 0.875rem;           /* 14px — captions, nav, chips, secondary  */
+  --text-sm--line-height: 1.55;
+  --text-base: 1rem;             /* 16px — body                             */
+  --text-base--line-height: 1.65;
+  --text-lg: 1.125rem;           /* 18px — lead paragraphs, large body      */
+  --text-lg--line-height: 1.7;
+  --text-xl: 1.25rem;            /* 20px — card titles                      */
+  --text-xl--line-height: 1.35;
+  --text-2xl: 1.5rem;            /* 24px — sub-section headings             */
+  --text-2xl--line-height: 1.25;
+
+  --radius-card: 1.25rem;        /* 20px, per the brand guide */
+  --radius-panel: 1.75rem;
+  --radius-chip: 0.5rem;
+  --radius-btn: 0.75rem;
+
+  /* One soft shadow level, plus the lifted variant used on hover. */
+  --shadow-soft: 0 1px 2px -1px #0a143312, 0 12px 32px -22px #0b45c740;
+  --shadow-lift: 0 2px 4px -2px #0a143314, 0 24px 60px -34px #0b45c766;
+  --shadow-hero: 0 4px 10px -6px #0a143318, 0 40px 90px -46px #0b45c766;
+
+  /* Consistent vertical rhythm between page sections. */
+  --space-section: 4.5rem;
+}
+
+@layer base {
+  html {
+    color: var(--color-ink);
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+  body { font-family: var(--font-sans); font-feature-settings: "ss01"; }
+  ::selection { background: #1463ff22; }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    /* Repeated on its own so the ring never falls back to currentColor. */
+    outline-color: var(--color-signal);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  /* On the navy bands a blue ring disappears; switch it to white there. */
+  .band-ink :focus-visible { outline-color: #fff; }
+
+  h1, h2, h3, h4 { text-wrap: balance; letter-spacing: -0.025em; }
+  p { text-wrap: pretty; }
+
+  /* Anything focusable should be reachable by keyboard without surprises. */
+  [hidden] { display: none !important; }
+}
+
+@layer components {
+  /* ── Layout ─────────────────────────────────────────────────────────────── */
+  .wrap { width: 100%; max-width: 76rem; margin-inline: auto; padding-inline: 1.25rem; }
+  @media (min-width: 768px) { .wrap { padding-inline: 2rem; } }
+
+  /* Section rhythm: one class instead of a dozen hand-tuned py- pairs. */
+  .section { padding-block: 3.5rem; }
+  @media (min-width: 768px) { .section { padding-block: var(--space-section); } }
+  .section-lg { padding-block: 4rem; }
+  @media (min-width: 768px) { .section-lg { padding-block: 5.5rem; } }
+
+  /* ── Type scale ─────────────────────────────────────────────────────────── */
+  .t-display {
+    font-size: clamp(2.125rem, 1.35rem + 3.1vw, 3.375rem);
+    line-height: 1.06; letter-spacing: -0.032em; font-weight: 800;
+  }
+  .t-section {
+    font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem);
+    line-height: 1.14; letter-spacing: -0.028em; font-weight: 800;
+  }
+  .t-sub { font-size: 1.5rem; line-height: 1.25; letter-spacing: -0.022em; font-weight: 800; }
+  .t-card { font-size: 1.25rem; line-height: 1.32; letter-spacing: -0.018em; font-weight: 700; }
+  .t-lead { font-size: 1.125rem; line-height: 1.7; }
+
+  /* Short labels only — never a whole sentence. */
+  .eyebrow {
+    font-size: 0.8125rem; font-weight: 700; line-height: 1.4;
+    letter-spacing: 0.07em; text-transform: uppercase; color: var(--color-signal);
+  }
+
+  /* ── Links ──────────────────────────────────────────────────────────────── */
+  .link {
+    color: var(--color-signal); font-weight: 600;
+    text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
+    transition: color .15s, text-decoration-color .15s;
+  }
+  .link:hover { color: var(--color-signal-deep); text-decoration-thickness: 2px; }
+
+  /* The "view all" affordance used in every section header. */
+  .link-more {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    font-size: 0.9375rem; font-weight: 700; color: var(--color-signal);
+    transition: color .15s, gap .15s;
+  }
+  .link-more:hover { color: var(--color-signal-deep); gap: 0.5rem; }
+  .link-more > svg { flex: none; }
+
+  /* ── Buttons ────────────────────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    height: 2.75rem;                    /* 44px — one height across the product */
+    padding-inline: 1.125rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-btn);
+    font-size: 0.9375rem; font-weight: 700; line-height: 1;
+    white-space: nowrap; cursor: pointer;
+    transition: background-color .18s, border-color .18s, color .18s, box-shadow .18s, transform .18s;
+  }
+  .btn > svg { flex: none; }
+  .btn:active { transform: translateY(1px); }
+  .btn:disabled, .btn[aria-disabled="true"] { opacity: .55; pointer-events: none; }
+
+  .btn-lg { height: 3.125rem; padding-inline: 1.5rem; font-size: 1rem; }
+  .btn-sm { height: 2.25rem; padding-inline: 0.875rem; font-size: 0.875rem; border-radius: 0.625rem; }
+  .btn-xs { height: 2rem; padding-inline: 0.75rem; font-size: 0.8125rem; border-radius: 0.5rem; }
+
+  .btn-primary { background: var(--color-signal); color: #fff; box-shadow: 0 1px 0 #ffffff33 inset, 0 10px 24px -13px #1463ff; }
+  .btn-primary:hover { background: var(--color-signal-deep); box-shadow: 0 1px 0 #ffffff33 inset, 0 14px 30px -14px #0b45c7; }
+
+  .btn-ghost { background: #fff; color: var(--color-ink); border-color: var(--color-line); }
+  .btn-ghost:hover { background: var(--color-paper); border-color: #b9c6df; }
+
+  .btn-quiet { background: transparent; color: var(--color-ink-2); }
+  .btn-quiet:hover { background: var(--color-paper); color: var(--color-ink); }
+
+  /* The two cleaners are peers: one shared treatment, current route filled in. */
+  .btn-tool { background: #fff; color: var(--color-ink); border-color: var(--color-line); }
+  .btn-tool > svg { color: var(--color-signal); transition: color .18s; }
+  .btn-tool:hover { border-color: #9fbdff; background: #f4f8ff; color: var(--color-signal-deep); }
+  .btn-tool[aria-current="page"] {
+    background: var(--color-signal); border-color: var(--color-signal); color: #fff;
+    box-shadow: 0 1px 0 #ffffff33 inset, 0 10px 24px -13px #1463ff;
+  }
+  .btn-tool[aria-current="page"] > svg { color: #fff; }
+  .btn-tool[aria-current="page"]:hover { background: var(--color-signal-deep); border-color: var(--color-signal-deep); }
+
+  /* For the navy bands. */
+  .btn-invert { background: #fff; color: var(--color-ink); }
+  .btn-invert:hover { background: var(--color-cyan); color: var(--color-ink); }
+  .btn-invert-soft { background: #ffffff1c; color: #fff; border-color: #ffffff3d; }
+  .btn-invert-soft:hover { background: #ffffff2e; border-color: #ffffff5c; }
+  .btn-invert-quiet { background: transparent; color: #ffffffcc; }
+  .btn-invert-quiet:hover { background: #ffffff1c; color: #fff; }
+
+  /* ── Surfaces ───────────────────────────────────────────────────────────── */
+  .card {
+    background: #fff; border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+  }
+  .card-pad { padding: 1.5rem; }
+  @media (min-width: 768px) { .card-pad { padding: 1.75rem; } }
+
+  .card-hover { transition: box-shadow .2s, border-color .2s, transform .2s; }
+  .card-hover:hover { border-color: #c2d3f2; box-shadow: var(--shadow-lift); transform: translateY(-2px); }
+
+  /* Hairline-separated grid of tiles (the "gap-px on bg-line" pattern). */
+  .tile-grid { display: grid; gap: 1px; overflow: hidden; border: 1px solid var(--color-line);
+    border-radius: var(--radius-card); background: var(--color-line); }
+  .tile-grid > * { background: #fff; }
+
+  /* ── Form fields ────────────────────────────────────────────────────────── */
+  .field {
+    width: 100%; margin-top: 0.375rem;
+    border: 1px solid var(--color-line); border-radius: 0.75rem; background: #fff;
+    padding: 0.75rem 0.875rem; font-size: 1rem; color: var(--color-ink);
+    outline: none; transition: border-color .15s, box-shadow .15s;
+  }
+  .field:hover { border-color: #b9c6df; }
+  .field:focus { border-color: var(--color-signal); box-shadow: 0 0 0 4px #1463ff1a; }
+  .field::placeholder { color: var(--color-muted); }
+
+  /* ── Long-form copy ─────────────────────────────────────────────────────── */
+  .prose-doc { color: var(--color-ink-2); font-size: 1.125rem; line-height: 1.75; max-width: 42rem; }
+  .prose-doc h2 { color: var(--color-ink); font-size: 1.5rem; font-weight: 800; margin: 2.5rem 0 .75rem; line-height: 1.25; letter-spacing: -0.022em; }
+  .prose-doc h2:first-child { margin-top: 0; }
+  .prose-doc h3 { color: var(--color-ink); font-size: 1.25rem; font-weight: 700; margin: 1.75rem 0 .5rem; line-height: 1.32; }
+  .prose-doc p { margin: 0 0 1.1rem; }
+  .prose-doc ul, .prose-doc ol { margin: 0 0 1.25rem 1.25rem; }
+  .prose-doc ul { list-style: disc; }
+  .prose-doc ol { list-style: decimal; }
+  .prose-doc li { margin: .4rem 0; padding-left: .25rem; }
+  .prose-doc li::marker { color: var(--color-line-strong); }
+  .prose-doc a { color: var(--color-signal); text-decoration: underline; text-underline-offset: 3px; }
+  .prose-doc a:hover { color: var(--color-signal-deep); }
+  .prose-doc strong { color: var(--color-ink); font-weight: 700; }
+
+  /* the pixel field used behind hero + section edges, echoing the logo's dissolving squares */
+  .pixel-field {
+    background-image:
+      radial-gradient(circle at 1px 1px, #1463ff14 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  /* Hover lifts and press states are motion too. */
+  .card-hover:hover, .btn:active { transform: none !important; }
+}
+
+/* Grid items default to min-width:auto, so long unbreakable content (file names, metadata values)
+   would widen the track past the viewport. Let tracks size by their fr ratios instead. */
+@layer base {
+  .grid > *, .flex > .min-w-0 { min-width: 0; }
+}
