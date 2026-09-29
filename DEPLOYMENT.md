@@ -113,6 +113,29 @@ The tracked `wrangler.jsonc` names the Worker `mediapure` and uses
 `.open-next/worker.js`. For local deploys, run `npm run build` followed by
 `npx wrangler deploy`; to preview, run `npm run preview`.
 
+## Option D: Render Docker backend
+
+The repository's root `render.yaml` defines a Docker web service using
+`backend/Dockerfile` with `backend/` as the build context, and a managed
+PostgreSQL database. Create a Blueprint in the Render Dashboard
+from this repository and apply the Blueprint. Render generates `SECRET_KEY` and
+provides `DATABASE_URL` from the database resource; neither secret belongs in Git.
+The service uses the `standard` instance and the database uses `basic-256mb` in
+Ohio. Review the current plan pricing in Render before applying.
+
+The Docker image installs FFmpeg and ExifTool, binds Uvicorn to Render's `$PORT`
+(8000 when run locally), and exposes `/api/health` as the Render health check.
+The database URL is normalized to SQLAlchemy's asyncpg driver. Cleaned uploads
+remain short-lived files in `/tmp/aimr`; contact messages and processing statistics
+are stored in PostgreSQL. Render's managed database, rather than the service's
+ephemeral filesystem, preserves those records across deploys.
+
+The Cloudflare frontend already proxies `/api/*` through the build-time
+`BACKEND_URL` rewrite. Once Render creates the service, set the Cloudflare
+Workers Builds **build environment variable** `BACKEND_URL` to the service's
+public HTTPS origin (without a path or trailing `/api`), then redeploy the
+existing Worker. The frontend should not be moved to Render.
+
 ## Go-live checklist
 
 - [ ] `ENVIRONMENT=production` (API docs hidden; the API refuses to start with a weak `SECRET_KEY`)

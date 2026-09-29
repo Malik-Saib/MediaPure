@@ -15,6 +15,30 @@ def test_health(client):
     assert client.get("/api/health").json()["status"] == "ok"
 
 
+@pytest.mark.parametrize("origin", [
+    "https://mediapure.site",
+    "https://www.mediapure.site",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+])
+def test_cors_preflight_allows_frontend_origins(client, origin):
+    response = client.options("/api/health", headers={
+        "Origin": origin,
+        "Access-Control-Request-Method": "GET",
+    })
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == origin
+
+
+def test_cors_preflight_rejects_unlisted_origin(client):
+    response = client.options("/api/health", headers={
+        "Origin": "https://untrusted.example",
+        "Access-Control-Request-Method": "GET",
+    })
+    assert response.status_code == 400
+    assert "access-control-allow-origin" not in response.headers
+
+
 def test_clean_download_delete(client):
     r = client.post("/api/v1/clean", content=fixtures.jpeg(),
                     headers={"Content-Type": "image/jpeg", "X-File-Name": "My%20Photo%20%E2%9C%A8.jpg"})

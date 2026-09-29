@@ -13,7 +13,10 @@ class Settings(BaseSettings):
     database_url: str = "sqlite+aiosqlite:///./aimr.db"
 
     # comma separated list of allowed browser origins
-    cors_origins: str = "http://localhost:3000"
+    cors_origins: str = (
+        "https://mediapure.site,https://www.mediapure.site,"
+        "http://localhost:3000,http://127.0.0.1:3000"
+    )
     trust_proxy_headers: bool = True
 
     temp_dir: Path = Path("/tmp/aimr")
@@ -63,6 +66,16 @@ class Settings(BaseSettings):
     smtp_password: str = ""
     smtp_from: str = ""
     contact_notify_to: str = "thevectorrr@gmail.com"
+
+    @field_validator("database_url", mode="before")
+    @classmethod
+    def _postgres_async_driver(cls, v: object) -> object:
+        if isinstance(v, str):
+            if v.startswith("postgres://"):
+                return "postgresql+asyncpg://" + v.removeprefix("postgres://")
+            if v.startswith("postgresql://"):
+                return "postgresql+asyncpg://" + v.removeprefix("postgresql://")
+        return v
 
     @field_validator("secret_key", mode="before")
     @classmethod

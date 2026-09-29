@@ -17,9 +17,9 @@ USER aimr
 ENV TEMP_DIR=/tmp/aimr
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
-  CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/api/health').status==200 else 1)"
+  CMD python -c "import os,sys,urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:'+os.getenv('PORT','8000')+'/api/health',timeout=4).status==200 else 1)"
 
 # One process on purpose: the rate limiter, the video job store and the temp-file index
 # all live in memory. Parallelism comes from the bounded worker pools (PROCESSING_WORKERS
 # for images, VIDEO_WORKERS for video). See DEPLOYMENT.md to scale out.
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--forwarded-allow-ips", "*", "--no-server-header"]
+CMD ["sh", "-c", "exec uvicorn app.main:app --host 0.0.0.0 --port \"${PORT:-8000}\" --proxy-headers --forwarded-allow-ips '*' --no-server-header"]
