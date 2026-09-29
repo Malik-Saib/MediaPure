@@ -92,6 +92,14 @@ sudo systemctl daemon-reload && sudo systemctl enable --now aimr-api aimr-web
 sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
 ```
 
+## Option C: Cloudflare Workers Builds
+
+Set the Workers Builds project root to `frontend` and the deploy command to
+`npx wrangler deploy`. The tracked `wrangler.jsonc` runs
+`npm run build:cloudflare` before deployment, names the Worker `mediapure`, and
+points to the OpenNext-generated `.open-next/worker.js`. The build output is
+generated during each build and should not be committed.
+
 ## Go-live checklist
 
 - [ ] `ENVIRONMENT=production` (API docs hidden; the API refuses to start with a weak `SECRET_KEY`)
