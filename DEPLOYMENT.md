@@ -52,12 +52,15 @@ export DOMAIN=yourdomain.com
 export POSTGRES_PASSWORD=$(openssl rand -hex 24)
 printf "DOMAIN=%s\nPOSTGRES_PASSWORD=%s\n" "$DOMAIN" "$POSTGRES_PASSWORD" > deploy/.env   # keep private; compose reads it
 
-# 3. First TLS certificate (nginx is not running yet, so use standalone mode once)
-sudo certbot certonly --standalone -d $DOMAIN -d www.$DOMAIN --agree-tos -m thevectorrr@gmail.com
+# 3. Point api.$DOMAIN DNS at this VPS. The API origin must be publicly reachable
+#    by Cloudflare Workers as https://api.$DOMAIN.
+#    First TLS certificate (nginx is not running yet, so use standalone mode once)
+sudo certbot certonly --standalone -d $DOMAIN -d www.$DOMAIN -d api.$DOMAIN --agree-tos -m thevectorrr@gmail.com
 
 # 4. Start
 cd deploy && docker compose up -d --build
 docker compose ps && curl -s https://$DOMAIN/api/health
+curl -sS https://api.$DOMAIN/api/health
 ```
 
 The certbot container renews certificates every 12 hours when due. After a renewal run
@@ -94,17 +97,27 @@ sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
 
 ## Option C: Cloudflare Workers Builds
 
-Set the Workers Builds project root to `frontend`, the build command to
-`npm run build`, and the deploy command to `npm run deploy`. The build command
-creates the OpenNext worker; the deploy script also builds before deployment
-for environments that invoke it directly. The tracked `wrangler.jsonc` names
-the Worker `mediapure` and points to `.open-next/worker.js`. To preview locally,
-run `npm run preview`; generated build output should not be committed.
+The Cloudflare Worker hosts the frontend; it does not run the Python/FastAPI,
+filesystem, or FFmpeg backend. Deploy the backend with the Docker Compose stack
+above and publish its API hostname (for example `api.mediapure.site`) to the VPS.
+The API DNS record must point to that VPS, and HTTPS must work at
+`https://api.mediapure.site/api/health` before configuring the Worker.
+
+In Cloudflare Workers Builds, set project root `frontend`, build command
+`npm run build`, and deploy command `npx wrangler deploy`. Add the **build
+environment variable** `BACKEND_URL=https://api.mediapure.site` (origin only;
+no `/api` suffix). Next.js embeds this URL in its API rewrite at build time, so
+a runtime-only Worker variable does not configure the proxy. Production builds
+fail clearly if this variable is missing rather than silently using localhost.
+The tracked `wrangler.jsonc` names the Worker `mediapure` and uses
+`.open-next/worker.js`. For local deploys, run `npm run build` followed by
+`npx wrangler deploy`; to preview, run `npm run preview`.
 
 ## Go-live checklist
 
 - [ ] `ENVIRONMENT=production` (API docs hidden; the API refuses to start with a weak `SECRET_KEY`)
 - [ ] `NEXT_PUBLIC_SITE_URL` set to the real domain **before** building (sitemap, canonicals, schema)
+- [ ] `https://api.yourdomain.com/api/health` reports `"video": true` and an FFmpeg version
 - [ ] HTTPS works and http:// redirects; HSTS header present
 - [ ] `curl https://yourdomain.com/api/health` reports `"video": true` and an FFmpeg version
 - [ ] Upload a JPG with GPS from a phone, confirm clean download and "Pixel-identical"

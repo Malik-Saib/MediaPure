@@ -1,7 +1,5 @@
 import type { NextConfig } from "next";
 
-const backend = process.env.BACKEND_URL ?? "http://127.0.0.1:8000";
-
 const isDev = process.env.NODE_ENV !== "production";
 
 // Next.js's dev bundler wraps every module in eval() and the HMR client opens a
@@ -40,8 +38,22 @@ const config: NextConfig = {
     middlewareClientMaxBodySize: "520mb",
   },
   async rewrites() {
-    // In production nginx routes /api to FastAPI directly; this keeps dev and single-box setups working.
-    return [{ source: "/api/:path*", destination: `${backend}/api/:path*` }];
+    const backendUrl = process.env.BACKEND_URL?.trim() || (isDev ? "http://127.0.0.1:8000" : "");
+    if (!backendUrl) {
+      throw new Error("BACKEND_URL must point to the deployed FastAPI origin when building for production.");
+    }
+
+    let origin: URL;
+    try {
+      origin = new URL(backendUrl);
+    } catch {
+      throw new Error("BACKEND_URL must be a valid HTTP or HTTPS origin.");
+    }
+    if (!["http:", "https:"].includes(origin.protocol) || origin.pathname !== "/" || origin.search || origin.hash) {
+      throw new Error("BACKEND_URL must be an HTTP or HTTPS origin without a path, query, or fragment.");
+    }
+
+    return [{ source: "/api/:path*", destination: `${origin.origin}/api/:path*` }];
   },
   async headers() {
     return [
