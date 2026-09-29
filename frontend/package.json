@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "opennextjs-cloudflare build",
     "build:next": "next build",
-    "deploy:cloudflare": "opennextjs-cloudflare deploy",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "start": "next start -p ${PORT:-3000}",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
