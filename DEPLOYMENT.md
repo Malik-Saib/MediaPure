@@ -94,11 +94,12 @@ sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
 
 ## Option C: Cloudflare Workers Builds
 
-Set the Workers Builds project root to `frontend` and the deploy command to
-`npx wrangler deploy`. The tracked `wrangler.jsonc` runs
-`npm run build:cloudflare` before deployment, names the Worker `mediapure`, and
-points to the OpenNext-generated `.open-next/worker.js`. The build output is
-generated during each build and should not be committed.
+Set the Workers Builds project root to `frontend`, the build command to
+`npm run build`, and the deploy command to `npm run deploy:cloudflare`. The
+build command runs Next.js and then creates the OpenNext worker. The tracked
+`wrangler.jsonc` names that Worker `mediapure` and points to
+`.open-next/worker.js`. For local deployment, run `npm run build` followed by
+`npx wrangler deploy`; generated build output should not be committed.
 
 ## Go-live checklist
 
