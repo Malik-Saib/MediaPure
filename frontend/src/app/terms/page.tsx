@@ -3,14 +3,14 @@ import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata = pageMeta({
-  title: "Terms & Conditions | MediaPure",
-  description: "The terms that apply when you use MediaPure to scan and clean metadata from images and video.",
+  title: "Metadata Remover Terms | MediaPure",
+  description: "Photo metadata remover terms: review rules for using MediaPure to scan and clean image and video files.",
   path: "/terms",
 });
 
 export default function Terms() {
   return (
-    <LegalPage crumb="Terms & conditions" path="/terms" title="Terms & conditions" updated="26 September 2026"
+    <LegalPage crumb="Terms & conditions" path="/terms" title="Terms for using the metadata remover" updated="26 September 2026"
       intro={`These terms govern your use of ${site.name}, operated by ${site.company.name}. By using the service, you agree to them.`}
       sections={[
         { h: "The service", p: ["The service lets you inspect and remove metadata from JPG, PNG and WebP images and from MP4, MOV, M4V, WebM, MKV and AVI video. It is provided free of charge for personal and business use, subject to the fair-use limits displayed on the site."] },

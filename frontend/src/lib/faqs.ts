@@ -13,12 +13,17 @@ export const faqs: Faq[] = [
   },
   {
     group: "Basics",
-    q: "Is it free? Do I need an account?",
-    a: "It's free to use and there is no signup, for both images and video. Fair-use limits apply to stop automated abuse: 30 images per minute and 500 per day from one connection, and 6 videos per minute and 60 per day.",
+    q: "Is it really free?",
+    a: "Yes. Image and video metadata cleaning is free to use, with fair-use limits to prevent automated abuse: 30 images per minute and 500 per day from one connection, and 6 videos per minute and 60 per day.",
+  },
+  {
+    group: "Basics",
+    q: "Do I need an account?",
+    a: "No. You can use the image and video cleaners without creating an account or signing in.",
   },
   {
     group: "Quality",
-    q: "Will cleaning reduce the quality of my image?",
+    q: "Will removing metadata reduce image quality?",
     a: "No. We never re-encode your image. The engine rewrites the file container and drops only metadata blocks, while the compressed image data is copied byte for byte. Before a file is offered for download, we decode both versions and compare every pixel. If a single pixel differed, you would get an error instead of a file.",
   },
   {
@@ -30,6 +35,11 @@ export const faqs: Faq[] = [
     group: "Quality",
     q: "Will my colours or orientation change?",
     a: "No. We keep the ICC colour profile, because removing it can shift colours on wide-gamut images, and it contains no personal information. We also keep a single orientation flag when your photo needs one, so portrait phone photos don't appear sideways. Nothing else survives.",
+  },
+  {
+    group: "Privacy",
+    q: "Does it remove GPS location?",
+    a: "Yes. On photos we remove GPS coordinates stored in EXIF and related location fields. On videos we also remove location atoms and timed GPS or telemetry tracks when present. Removing metadata cannot erase a location that is visibly shown in the image or video itself.",
   },
   {
     group: "Privacy",
@@ -48,6 +58,11 @@ export const faqs: Faq[] = [
   },
   {
     group: "AI images",
+    q: "Does it remove C2PA / AI-generated labels?",
+    a: "We remove embedded C2PA Content Credentials manifests and readable AI-generation metadata such as prompts, model names and source-type tags. We do not change pixels or frames, so invisible watermarks embedded in the media remain. Follow any disclosure rules that apply to your work.",
+  },
+  {
+    group: "AI images",
     q: "What AI information can be hidden inside an image?",
     a: "Depending on the tool: the full prompt and negative prompt, seed, sampler and model name (common in Stable Diffusion and ComfyUI PNGs, sometimes with the full node workflow), the generator software name, IPTC 'digital source type' tags, and signed C2PA Content Credentials manifests naming the service that created the image.",
   },
@@ -60,6 +75,11 @@ export const faqs: Faq[] = [
     group: "AI images",
     q: "Should I remove Content Credentials from my images?",
     a: "It depends on how you use the image. Content Credentials help others verify where an image came from, and some platforms and clients expect them. They can also reveal which tools and services you use, and when. If you publish AI-generated work, follow the disclosure rules of the platform and your local regulations. Removing file metadata doesn't change what you are required to disclose.",
+  },
+  {
+    group: "Video",
+    q: "Does it work on video too?",
+    a: "Yes. The video metadata remover supports MP4, MOV, M4V, WebM, MKV and AVI. It removes metadata and GPS telemetry without re-encoding the video or audio streams.",
   },
   {
     group: "Video",
@@ -113,3 +133,15 @@ export const videoFaqs = faqs.filter((f) => f.group === "Video");
 
 /** Image-specific questions, for the image cleaner page. */
 export const imageFaqs = faqs.filter((f) => f.group === "Quality" || f.group === "AI images");
+
+const HOMEPAGE_FAQ_QUESTIONS = new Set([
+  "Will removing metadata reduce image quality?",
+  "Does it remove GPS location?",
+  "Does it remove C2PA / AI-generated labels?",
+  "Is it really free?",
+  "Do I need an account?",
+  "Which formats are supported?",
+  "Does it work on video too?",
+]);
+
+export const homepageFaqs = faqs.filter((faq) => HOMEPAGE_FAQ_QUESTIONS.has(faq.q));

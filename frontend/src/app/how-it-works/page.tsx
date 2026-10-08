@@ -1,11 +1,12 @@
 import { PageIntro } from "@/components/PageIntro";
 import { CtaBand } from "@/components/CtaBand";
-import { pageMeta } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { howToSchema, pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "How Lossless Metadata Removal Works | Images & Video",
+  title: "How to Remove Metadata from Media | MediaPure",
   description:
-    "How MediaPure removes EXIF, XMP, IPTC, C2PA and video container metadata without re-encoding, and how every result is verified pixel by pixel or stream by stream before download.",
+    "See how to remove EXIF, XMP, IPTC, C2PA and video metadata without re-encoding. Learn about scanning, cleanup and output verification.",
   path: "/how-it-works",
   keywords: ["how to remove video metadata", "lossless metadata removal", "stream copy remux", "EXIF removal"],
 });
@@ -34,12 +35,18 @@ const FORMATS = [
 export default function HowItWorks() {
   return (
     <>
-      <PageIntro crumb="How it works" path="/how-it-works" title="How we remove metadata without touching a pixel"
+      <JsonLd data={howToSchema({
+        name: "How to remove metadata from photos and videos",
+        description: "Scan a media file, remove its metadata and verify the cleaned result before download.",
+        path: "/how-it-works",
+        steps: STEPS.map((step) => ({ name: step.t, text: step.d })),
+      })} />
+      <PageIntro crumb="How it works" path="/how-it-works" title="How to remove metadata without touching a pixel"
         intro="Most tools strip metadata by re-saving your image. We take a slower-to-build but better route: rewrite the file's structure and leave the image data alone." />
       <section className="wrap section-lg">
         <ol className="relative max-w-3xl space-y-12 border-l-2 border-line pl-8 md:pl-12">
           {STEPS.map((s, i) => (
-            <li key={s.t} className="relative">
+            <li key={s.t} id={`step-${i + 1}`} className="relative">
               <span className="absolute -left-[2.95rem] top-0 grid size-9 place-items-center rounded-full bg-ink text-sm font-bold text-white md:-left-[3.95rem]">{i + 1}</span>
               <h2 className="t-sub">{s.t}</h2>
               <p className="t-lead mt-3 text-muted">{s.d}</p>

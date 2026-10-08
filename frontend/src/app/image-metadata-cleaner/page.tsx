@@ -6,9 +6,9 @@ import { faqs } from "@/lib/faqs";
 import Link from "next/link";
 
 export const metadata = pageMeta({
-  title: "Remove Image Metadata Online: Free EXIF & AI Data Cleaner",
+  title: "Remove EXIF Data from Photos Free | MediaPure",
   description:
-    "Upload JPG, PNG or WebP images and remove EXIF, GPS, XMP, IPTC, AI prompts and C2PA data in seconds. See every field before it's removed. Lossless output.",
+    "Remove EXIF data, GPS, AI prompts and C2PA from JPG, PNG or WebP photos. Lossless photo metadata removal with pixel checks.",
   path: "/image-metadata-cleaner",
   keywords: [
     "image metadata remover", "remove image metadata online", "EXIF remover",
@@ -25,7 +25,7 @@ export default function ToolPage() {
       <section className="pixel-field border-b border-line">
         <div className="wrap max-w-4xl py-12 md:py-16">
           <p className="eyebrow">Image cleaner</p>
-          <h1 className="t-display mt-3">Image metadata cleaner</h1>
+          <h1 className="t-display mt-3">Remove EXIF data from photos</h1>
           <p className="t-lead mt-4 max-w-2xl text-muted">
             Remove EXIF, location, AI prompts and Content Credentials from your images. You&apos;ll see every field we find before you download the clean copy.
           </p>
@@ -49,6 +49,9 @@ export default function ToolPage() {
           <h2 className="t-sub">About quality</h2>
           <div className="mt-5"><FaqList items={toolFaqs} /></div>
         </div>
+      </section>
+      <section className="wrap pb-12 text-sm text-muted">
+        <p>Need device-specific steps? See how to <Link className="link" href="/guides/remove-exif-iphone">remove EXIF on iPhone</Link>, <Link className="link" href="/guides/remove-exif-android">remove photo metadata on Android</Link>, <Link className="link" href="/guides/remove-exif-windows">remove metadata on Windows</Link>, or <Link className="link" href="/guides/remove-exif-mac">remove metadata on Mac</Link>. You can also <Link className="link" href="/guides/remove-gps-from-photo">remove GPS from a photo</Link> and <Link className="link" href="/guides/remove-c2pa-content-credentials">remove C2PA Content Credentials</Link>.</p>
       </section>
     </>
   );

@@ -4,8 +4,8 @@ import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata = pageMeta({
-  title: "About MediaPure | Why We Built a Lossless Metadata Remover",
-  description: "MediaPure is built by The Vector. Why we made it, how it grew from an image cleaner into a media privacy platform, and how we keep it free.",
+  title: "About Our Metadata Remover | MediaPure",
+  description: "Learn why we built a lossless photo and video metadata remover and how MediaPure handles image privacy.",
   path: "/about",
   keywords: ["about MediaPure", "Media Pure", "metadata remover company"],
 });
@@ -13,7 +13,7 @@ export const metadata = pageMeta({
 export default function About() {
   return (
     <>
-      <PageIntro crumb="About us" path="/about" title="We build tools that respect what you share"
+      <PageIntro crumb="About us" path="/about" title="About MediaPure, a lossless metadata remover"
         intro="MediaPure is made by The Vector, a software company that builds AI systems and web products for businesses." />
       <section className="wrap section-lg grid gap-12 lg:grid-cols-[1fr_0.9fr] lg:gap-16">
         <div className="prose-doc">

@@ -4,8 +4,8 @@ import { posts } from "@/lib/blog";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "Media Privacy Blog: EXIF, Video Metadata & C2PA Guides",
-  description: "Practical guides on image and video metadata: what AI files reveal, removing EXIF data, stripping GPS from video, Content Credentials explained and pre-upload privacy checklists.",
+  title: "Photo Metadata Removal Guides | MediaPure",
+  description: "Read practical guides about removing photo EXIF, video metadata, GPS location and C2PA Content Credentials before sharing files.",
   path: "/blog",
   keywords: ["video metadata guide", "EXIF guide", "C2PA", "media privacy blog"],
 });
@@ -15,7 +15,7 @@ const fmt = (d: string) => new Date(d).toLocaleDateString("en-GB", { day: "numer
 export default function Blog() {
   return (
     <>
-      <PageIntro crumb="Blog" path="/blog" title="Guides to media privacy"
+      <PageIntro crumb="Blog" path="/blog" title="Photo and video metadata removal guides"
         intro="What's inside your image and video files, why it matters and how to take control of it. Written by the people who built the cleaners." />
       <div className="wrap section max-w-4xl">
         <ul className="divide-y divide-line border-y border-line">

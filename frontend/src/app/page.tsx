@@ -10,15 +10,15 @@ import { FaqList } from "@/components/FaqList";
 import { CtaBand } from "@/components/CtaBand";
 import { SectionHeading } from "@/components/SectionHeading";
 import { JsonLd } from "@/components/JsonLd";
-import { faqs } from "@/lib/faqs";
+import { homepageFaqs } from "@/lib/faqs";
 import { posts } from "@/lib/blog";
 import { faqSchema, imageToolSchema, pageMeta, softwareSchema, videoToolSchema } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata = pageMeta({
-  title: "MediaPure: Remove Metadata From Images & Video Free",
+  title: "Remove Metadata from Photos & Video Free | MediaPure",
   description:
-    "MediaPure is the complete media metadata cleaning platform. Remove EXIF, GPS, AI prompts and C2PA Content Credentials from images and video online. Lossless, free, no signup.",
+    "Remove metadata from photos and video, including EXIF, GPS and C2PA. Lossless online cleaning keeps pixels and frames unchanged.",
   path: "/",
   keywords: [
     "MediaPure", "Media Pure", "AI metadata remover", "AI image metadata remover",
@@ -99,7 +99,7 @@ const COMPARISON = [
 export default function Home() {
   return (
     <>
-      <JsonLd data={[softwareSchema, imageToolSchema, videoToolSchema, faqSchema(faqs.slice(0, 6))]} />
+      <JsonLd data={[softwareSchema, imageToolSchema, videoToolSchema, faqSchema(homepageFaqs)]} />
 
       <section className="pixel-field relative border-b border-line">
         <div className="wrap grid items-start gap-10 py-12 md:py-16 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14 lg:py-20">
@@ -107,7 +107,7 @@ export default function Home() {
             {/* Sentence case: this is a sentence, not a label. */}
             <p className="font-semibold text-signal sm:text-lg">{site.tagline}</p>
             <h1 className="t-display mt-4 text-ink">
-              Remove hidden metadata from images and video. Keep every pixel and every frame.
+              Remove metadata from photos and video. Keep every pixel and every frame.
             </h1>
             <p className="t-lead mt-6 max-w-xl text-muted">
               MediaPure strips EXIF, GPS, prompts and Content Credentials from JPG, PNG and WebP images and
@@ -135,7 +135,7 @@ export default function Home() {
           {TOOL_CARDS.map((t) => (
             <Link key={t.href} href={t.href} className="card card-hover card-pad group flex flex-col">
               <div className="flex items-center gap-3">
-                <Image src={t.mark} alt="" aria-hidden width={40} height={40} className="size-10" sizes="40px" />
+                <Image src={t.mark} alt={`${t.eyebrow} metadata remover icon`} width={40} height={40} className="size-10" sizes="40px" />
                 <span className="eyebrow">{t.eyebrow}</span>
               </div>
               <h3 className="t-card mt-4 transition-colors group-hover:text-signal">{t.title}</h3>
@@ -300,7 +300,7 @@ export default function Home() {
           description="Straight answers, including what this tool can't do."
           action={{ href: "/faq", label: "Read all FAQs" }}
         />
-        <div className="mt-10"><FaqList items={faqs.slice(0, 6)} /></div>
+        <div className="mt-10"><FaqList items={homepageFaqs} /></div>
       </section>
 
       <section className="border-t border-line bg-paper">

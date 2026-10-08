@@ -2,7 +2,7 @@ export const site = {
   name: "MediaPure",
   shortName: "MediaPure",
   tagline: "The complete media metadata cleaning platform.",
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://mediapure.com").replace(/\/$/, ""),
+  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://mediapure.site").replace(/\/$/, ""),
   description:
     "Remove EXIF, GPS, XMP, IPTC, AI prompts and C2PA Content Credentials from images and videos online. Lossless: your pixels and your frames stay identical.",
   maxFileMb: Number(process.env.NEXT_PUBLIC_MAX_FILE_MB ?? 25),

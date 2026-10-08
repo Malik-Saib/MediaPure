@@ -17,7 +17,26 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Params) {
   const post = getPost((await params).slug);
   if (!post) return {};
-  return pageMeta({ title: post.title, description: post.description, path: `/blog/${post.slug}`, type: "article" });
+  const seoTitles: Record<string, string> = {
+    "remove-metadata-from-video": "Remove Video Metadata & GPS Tracks | MediaPure",
+    "what-your-ai-image-file-reveals": "AI Image Metadata: What Files Reveal | MediaPure",
+    "remove-exif-data-from-photos": "Remove EXIF Data from Photos | MediaPure",
+    "c2pa-content-credentials-explained": "C2PA Content Credentials Explained | MediaPure",
+    "clean-images-before-upload-checklist": "Photo Privacy Checklist Before Upload | MediaPure",
+  };
+  const seoDescriptions: Record<string, string> = {
+    "remove-metadata-from-video": "Remove video metadata before sharing: learn how GPS tracks, device names and timestamps travel in MP4 and MOV files.",
+    "what-your-ai-image-file-reveals": "Remove AI metadata from images: learn where prompts, seeds, Content Credentials and location can remain in exported files.",
+    "remove-exif-data-from-photos": "Remove EXIF from photos to protect GPS coordinates, device details and timestamps. Compare Windows, Mac, phone and online methods.",
+    "c2pa-content-credentials-explained": "C2PA Content Credentials describe a file's origin and edit history. Learn how they work, when to keep them and what removal changes.",
+    "clean-images-before-upload-checklist": "Use this pre-upload photo privacy checklist to find EXIF, GPS, AI prompts and other metadata before sharing files online.",
+  };
+  return pageMeta({
+    title: seoTitles[post.slug] ?? `${post.title.slice(0, 34).trim()} | MediaPure`,
+    description: seoDescriptions[post.slug] ?? post.description,
+    path: `/blog/${post.slug}`,
+    type: "article",
+  });
 }
 
 export default async function PostPage({ params }: Params) {
@@ -50,6 +69,13 @@ export default async function PostPage({ params }: Params) {
         <p className="t-lead mt-5 text-muted">{post.description}</p>
         <hr className="my-10 border-line" />
         <Prose blocks={post.body} />
+        <section className="mt-10 rounded-2xl border border-line bg-paper p-6" aria-label="Related metadata cleaners">
+          <h2 className="font-bold text-ink">Clean a file before sharing</h2>
+          <p className="mt-2 leading-7 text-muted">
+            Use the <Link className="link" href="/image-metadata-cleaner">free photo metadata remover to remove EXIF data</Link>
+            {" "}or the <Link className="link" href="/video-metadata-cleaner">video metadata remover to remove GPS and metadata from video</Link>.
+          </p>
+        </section>
         <p className="mt-12 border-t border-line pt-6 text-sm text-muted">Written by the team at <a href={site.company.url} className="font-semibold text-ink underline underline-offset-4 transition-colors hover:text-signal" rel="noopener">The Vector</a>.</p>
       </article>
       <aside className="wrap max-w-3xl border-t border-line py-12">

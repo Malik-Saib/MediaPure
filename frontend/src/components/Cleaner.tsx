@@ -258,7 +258,7 @@ function ItemCard({ item, onRemove, onRetry }: { item: Item; onRemove: () => voi
     <article className="card overflow-hidden shadow-soft">
       <div className="flex items-center gap-4 p-4">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={item.preview} alt="" className="size-14 shrink-0 rounded-xl border border-line object-cover" />
+        <img src={item.preview} alt={`Preview of ${item.file.name}`} className="size-14 shrink-0 rounded-xl border border-line object-cover" />
         <div className="min-w-0 flex-1">
           <p className="truncate font-semibold text-ink" title={item.file.name}>{item.file.name}</p>
           <p className="mt-0.5 text-sm text-muted">

@@ -1,6 +1,6 @@
 # Production stack for MediaPure: PostgreSQL + FastAPI + Next.js behind nginx (TLS).
 #   cp ../backend/.env.example ../backend/.env   # then fill in secrets
-#   export DOMAIN=mediapure.com POSTGRES_PASSWORD=...
+#   export DOMAIN=mediapure.site POSTGRES_PASSWORD=...
 #   docker compose up -d --build
 # See ../DEPLOYMENT.md for certificates, sizing and first-run steps.
 services:

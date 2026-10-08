@@ -7,9 +7,9 @@ import { CtaBand } from "@/components/CtaBand";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "Features: Lossless Image & Video Metadata Remover | MediaPure",
+  title: "Metadata Remover Features | MediaPure",
   description:
-    "Batch image cleaning, one-at-a-time video cleaning, a field-by-field report, privacy scores, pixel and frame verification, ZIP downloads and support for JPG, PNG, WebP, MP4, MOV, WebM, MKV and AVI.",
+    "Explore photo and video metadata remover features: EXIF, GPS and C2PA cleanup, lossless verification, batch images and supported formats.",
   path: "/features",
   keywords: ["MediaPure features", "video metadata remover features", "EXIF remover", "C2PA remover"],
 });
@@ -58,7 +58,7 @@ const GROUPS = [
 export default function Features() {
   return (
     <>
-      <PageIntro crumb="Features" path="/features" title="Everything you need to share media safely"
+      <PageIntro crumb="Features" path="/features" title="Photo and video metadata remover features"
         intro="One job, done thoroughly: find what's hidden in your images and videos, remove it without harming the picture or the sound, and prove that it worked." />
       <div className="wrap section">
         {GROUPS.map((g) => (

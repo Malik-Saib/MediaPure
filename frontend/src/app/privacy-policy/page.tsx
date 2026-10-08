@@ -3,14 +3,14 @@ import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata = pageMeta({
-  title: "Privacy Policy | MediaPure",
-  description: "How MediaPure handles uploaded images and videos, contact messages and anonymous usage statistics.",
+  title: "Metadata Remover Privacy Policy | MediaPure",
+  description: "Photo metadata remover privacy policy: learn how MediaPure handles uploads, reports and contact information.",
   path: "/privacy-policy",
 });
 
 export default function PrivacyPolicy() {
   return (
-    <LegalPage crumb="Privacy policy" path="/privacy-policy" title="Privacy policy" updated="26 September 2026"
+    <LegalPage crumb="Privacy policy" path="/privacy-policy" title="Privacy policy for media metadata removal" updated="26 September 2026"
       intro={`This policy explains what information ${site.name} ("we", "us") processes, why, and for how long. The service is operated by ${site.company.name}.`}
       sections={[
         { h: "Summary", p: ["We process your files only to remove their metadata and give them back to you. We keep no copy once you are done: cleaned files are deleted automatically after 10 minutes, and your original is discarded as soon as processing ends. We don't sell data, show ads or use third-party tracking."] },

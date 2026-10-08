@@ -6,8 +6,8 @@ import { pageMeta } from "@/lib/seo";
 import { site, absolute } from "@/lib/site";
 
 export const metadata = pageMeta({
-  title: "Contact Us | MediaPure by The Vector",
-  description: "Questions, bug reports, business enquiries or privacy requests. Contact the team behind MediaPure.",
+  title: "Contact the Metadata Remover Team | MediaPure",
+  description: "Contact the MediaPure team about photo metadata removal, video cleaning, technical issues or privacy requests.",
   path: "/contact",
 });
 
@@ -17,7 +17,7 @@ export default function Contact() {
       <JsonLd data={{ "@context": "https://schema.org", "@type": "ContactPage", url: absolute("/contact"),
         mainEntity: { "@type": "Organization", name: site.name, email: site.company.email, url: site.url,
           parentOrganization: { "@type": "Organization", name: site.company.name, url: site.company.url } } }} />
-      <PageIntro crumb="Contact" path="/contact" title="Talk to us"
+      <PageIntro crumb="Contact" path="/contact" title="Contact the MediaPure metadata remover team"
         intro="Found a bug, need higher limits for your team, or have a privacy request? Send a message and a person will reply." />
       <div className="wrap section grid gap-12 lg:grid-cols-[1.3fr_0.7fr] lg:gap-16">
         <ContactForm />

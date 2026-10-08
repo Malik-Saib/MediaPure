@@ -6,9 +6,9 @@ import { faqs } from "@/lib/faqs";
 import { faqSchema, pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "Metadata Removal FAQ: Image & Video Quality, Privacy & AI",
+  title: "Photo & Video Metadata Remover FAQ | MediaPure",
   description:
-    "Answers about removing EXIF and video metadata: supported formats, image and video quality, GPS telemetry tracks, what we store, Content Credentials and what metadata removal cannot do.",
+    "Answers about photo metadata removal, EXIF, GPS, C2PA, quality, supported formats and video cleaning from the MediaPure team.",
   path: "/faq",
   keywords: ["video metadata FAQ", "remove video metadata", "EXIF remover FAQ", "MediaPure"],
 });
@@ -19,7 +19,7 @@ export default function FaqPage() {
   return (
     <>
       <JsonLd data={faqSchema(faqs)} />
-      <PageIntro crumb="FAQ" path="/faq" title="Frequently asked questions"
+      <PageIntro crumb="FAQ" path="/faq" title="Photo and video metadata removal FAQ"
         intro="Everything about how the image and video cleaners work, what they remove and what happens to your files." />
       <div className="wrap section max-w-4xl">
         {GROUPS.map((g) => (

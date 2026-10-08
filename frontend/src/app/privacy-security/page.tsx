@@ -3,9 +3,9 @@ import { CtaBand } from "@/components/CtaBand";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "Privacy & Security: How Your Images and Videos Are Protected",
+  title: "Metadata Remover Privacy & Security | MediaPure",
   description:
-    "Image originals are processed in memory and never stored; video originals are deleted the moment cleaning ends. Cleaned files expire after 10 minutes. See the full data lifecycle and security controls.",
+    "Learn how the photo and video metadata remover processes uploads, protects original files and deletes cleaned files automatically.",
   path: "/privacy-security",
   keywords: ["media privacy", "is it safe to remove video metadata online", "MediaPure security"],
 });
@@ -35,7 +35,7 @@ const CONTROLS = [
 export default function Security() {
   return (
     <>
-      <PageIntro crumb="Privacy & security" path="/privacy-security" title="We designed this service to forget your files"
+      <PageIntro crumb="Privacy & security" path="/privacy-security" title="Privacy and security for metadata removal"
         intro="A privacy tool has to be private itself. Here's exactly what happens to your image or video, how long anything exists, and what protects the service." />
       <section className="wrap section-lg">
         <h2 className="t-section">The life of an uploaded file</h2>

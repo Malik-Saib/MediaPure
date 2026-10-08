@@ -19,7 +19,7 @@ export type Post = {
 export const posts: Post[] = [
   {
     slug: "remove-metadata-from-video",
-    title: "What Your Video File Reveals: GPS Tracks, Device Names and How to Remove Them",
+    title: "How to Remove Metadata from Video: GPS Tracks & Device Names",
     description:
       "A video carries more identity than a photo, including a second-by-second GPS log most tools never touch. What is inside MP4, MOV, WebM, MKV and AVI files, and how to strip it without losing quality.",
     date: "2026-09-24",
@@ -68,7 +68,7 @@ export const posts: Post[] = [
   },
   {
     slug: "what-your-ai-image-file-reveals",
-    title: "Posting AI Art? Here's What Your Image File Still Says About You",
+    title: "How to Remove AI Metadata from an Image: Prompts & Location",
     description:
       "Prompts, seeds, model names, signed Content Credentials and sometimes your location. What AI image files carry, tool by tool, and how to remove it.",
     date: "2026-09-10",
@@ -100,7 +100,7 @@ export const posts: Post[] = [
   },
   {
     slug: "remove-exif-data-from-photos",
-    title: "How to Remove EXIF Data From Photos Before You Share Them",
+    title: "How to Remove EXIF Data from Photos Before Sharing",
     description:
       "What EXIF data is, what it reveals (GPS, device serials, timestamps) and four ways to remove it on Windows, Mac, phones and online, without losing quality.",
     date: "2026-09-03",
@@ -132,7 +132,7 @@ export const posts: Post[] = [
   },
   {
     slug: "c2pa-content-credentials-explained",
-    title: "What Are Content Credentials, and Should You Keep Them?",
+    title: "Remove C2PA Content Credentials: What They Reveal",
     description:
       "C2PA Content Credentials explained in plain language: what the manifest contains, who adds it, why it matters, and when removing it makes sense.",
     date: "2026-08-27",
@@ -166,7 +166,7 @@ export const posts: Post[] = [
   },
   {
     slug: "clean-images-before-upload-checklist",
-    title: "Uploading Images Online? Run Through This Privacy Checklist First",
+    title: "Remove Photo Metadata: Privacy Checklist Before Upload",
     description:
       "A practical pre-upload checklist for designers, marketers and businesses: where metadata survives, which channels keep it, and a two-minute routine.",
     date: "2026-08-20",

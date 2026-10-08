@@ -305,7 +305,7 @@ function FileHeader({ file, local, job, onRemove, busy }: {
       <div className="relative grid size-16 shrink-0 place-items-center overflow-hidden rounded-xl border border-line bg-paper">
         {local?.poster ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={local.poster} alt="" className="size-full object-cover" />
+          <img src={local.poster} alt={`Preview frame from ${file.name}`} className="size-full object-cover" />
         ) : (
           <FileVideo size={22} className="text-muted" aria-hidden />
         )}

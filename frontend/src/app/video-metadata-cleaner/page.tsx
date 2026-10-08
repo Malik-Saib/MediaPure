@@ -12,9 +12,9 @@ import { videoFaqs } from "@/lib/faqs";
 import { site } from "@/lib/site";
 
 export const metadata = pageMeta({
-  title: "Video Metadata Remover: Remove GPS & EXIF From Video Free",
+  title: "Remove Metadata from Video Free | MediaPure",
   description:
-    "Remove hidden metadata from MP4, MOV, WebM, MKV and AVI online. Strip GPS, device names, creation dates and Content Credentials with no re-encoding — same resolution, bitrate and quality.",
+    "Remove metadata from MP4, MOV, WebM, MKV and AVI videos, including GPS, device details and timestamps without re-encoding.",
   path: "/video-metadata-cleaner",
   keywords: [
     "video metadata remover", "remove video metadata online", "AI video metadata remover",
@@ -68,7 +68,7 @@ export default function VideoToolPage() {
         <div className="wrap max-w-4xl py-12 md:py-16">
           <p className="eyebrow">Video cleaner</p>
           <h1 className="t-display mt-3">
-            Remove hidden metadata from video. Keep every frame.
+            Remove metadata from video. Keep every frame.
           </h1>
           <p className="t-lead mt-4 max-w-2xl text-muted">
             A free video metadata remover for MP4, MOV, WebM, MKV and AVI. Strip GPS, device names,
@@ -98,6 +98,10 @@ export default function VideoToolPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="wrap pb-12 text-sm text-muted">
+        <p>For images, visit the <Link className="link" href="/image-metadata-cleaner">free photo metadata remover</Link>. Learn more about removing <Link className="link" href="/guides/remove-gps-from-photo">GPS location from photos</Link> or <Link className="link" href="/guides/remove-c2pa-content-credentials">C2PA Content Credentials</Link>.</p>
       </section>
 
       <section className="border-y border-line bg-paper">

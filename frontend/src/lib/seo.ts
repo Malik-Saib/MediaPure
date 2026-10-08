@@ -10,21 +10,32 @@ export function pageMeta(opts: {
   keywords?: string[];
 }): Metadata {
   const url = absolute(opts.path);
+  const suffix = " Free, no signup.";
+  const baseDescription = opts.description
+    .replace(/,?\s*free,\s*no signup\.?$/i, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  const maxBaseLength = 155 - suffix.length;
+  const shortenedDescription = baseDescription.length > maxBaseLength
+    ? `${baseDescription.slice(0, maxBaseLength).replace(/\s+\S*$/, "").replace(/[.,;:!?-]+$/, "")}`
+    : baseDescription;
+  const description = `${shortenedDescription}${suffix}`;
   return {
     title: { absolute: opts.title },
-    description: opts.description,
+    description,
     keywords: opts.keywords,
     alternates: { canonical: url },
     robots: opts.noindex ? { index: false, follow: false } : undefined,
     openGraph: {
       title: opts.title,
-      description: opts.description,
+      description,
       url,
       siteName: site.name,
       type: opts.type ?? "website",
       images: [{ url: absolute("/og.png"), width: 1200, height: 630, alt: site.name }],
     },
-    twitter: { card: "summary_large_image", title: opts.title, description: opts.description, images: [absolute("/og.png")] },
+    twitter: { card: "summary_large_image", title: opts.title, description, images: [absolute("/og.png")] },
+    other: { "twitter:url": url },
   };
 }
 
@@ -33,7 +44,7 @@ export const organizationSchema = {
   "@type": "Organization",
   "@id": `${site.url}/#organization`,
   name: site.name,
-  alternateName: ["Media Pure", "MediaPure.com"],
+  alternateName: ["Media Pure"],
   url: site.url,
   email: site.company.email,
   logo: absolute("/brand/mediapure-icon-512.png"),
@@ -54,7 +65,7 @@ export const websiteSchema = {
   publisher: { "@id": `${site.url}/#organization` },
 };
 
-const FREE_OFFER = { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" };
+const FREE_OFFER = { "@type": "Offer", price: 0, priceCurrency: "USD", availability: "https://schema.org/InStock" };
 
 /** The platform as a whole: what a search engine should treat as "MediaPure". */
 export const softwareSchema = {
@@ -66,7 +77,7 @@ export const softwareSchema = {
   url: site.url,
   applicationCategory: "MultimediaApplication",
   applicationSubCategory: "Media privacy tool",
-  operatingSystem: "Any (web browser)",
+  operatingSystem: "Web",
   browserRequirements: "Requires JavaScript",
   description: site.description,
   offers: FREE_OFFER,
@@ -91,7 +102,7 @@ export const imageToolSchema = {
   url: absolute("/image-metadata-cleaner"),
   applicationCategory: "MultimediaApplication",
   applicationSubCategory: "Image privacy tool",
-  operatingSystem: "Any (web browser)",
+  operatingSystem: "Web",
   description:
     "Free online EXIF and metadata remover for JPG, PNG and WebP. Strips GPS, camera details, AI prompts and Content Credentials while keeping every pixel identical.",
   offers: FREE_OFFER,
@@ -114,7 +125,7 @@ export const videoToolSchema = {
   url: absolute("/video-metadata-cleaner"),
   applicationCategory: "MultimediaApplication",
   applicationSubCategory: "Video privacy tool",
-  operatingSystem: "Any (web browser)",
+  operatingSystem: "Web",
   description:
     "Free online video metadata remover for MP4, MOV, WebM, MKV and AVI. Removes GPS, device names, creation dates, editing history and Content Credentials without re-encoding, so quality is untouched.",
   offers: FREE_OFFER,

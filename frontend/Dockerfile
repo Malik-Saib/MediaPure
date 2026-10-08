@@ -6,7 +6,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
 # NEXT_PUBLIC_* values are baked in at build time
-ARG NEXT_PUBLIC_SITE_URL=https://aiimagesmetadataremover.com
+ARG NEXT_PUBLIC_SITE_URL=https://mediapure.site
 ARG NEXT_PUBLIC_MAX_FILE_MB=25
 ARG BACKEND_URL=http://api:8000
 ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL NEXT_PUBLIC_MAX_FILE_MB=$NEXT_PUBLIC_MAX_FILE_MB BACKEND_URL=$BACKEND_URL
