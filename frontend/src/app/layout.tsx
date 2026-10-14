@@ -31,6 +31,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${jakarta.variable} ${jbmono.variable}`}>
+      <head>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3561993123163235"
+          crossOrigin="anonymous"></script>
+      </head>
       <body className="min-h-dvh bg-white">
         <JsonLd data={[organizationSchema, websiteSchema]} />
         <MotionProvider>
