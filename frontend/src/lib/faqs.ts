@@ -77,6 +77,16 @@ export const faqs: Faq[] = [
     a: "It depends on how you use the image. Content Credentials help others verify where an image came from, and some platforms and clients expect them. They can also reveal which tools and services you use, and when. If you publish AI-generated work, follow the disclosure rules of the platform and your local regulations. Removing file metadata doesn't change what you are required to disclose.",
   },
   {
+    group: "Basics",
+    q: "How can I see what metadata is in my photo before I clean it?",
+    a: "Drop the photo into the cleaner above. Before anything is removed you get a scan report listing every category found in the file — location, device, dates, ownership, AI data, Content Credentials, hidden extras — so you can see exactly what the file has been carrying. Nothing is downloaded or shared at that point: if you close the page instead of downloading, the upload is discarded and no cleaned copy is created.",
+  },
+  {
+    group: "Basics",
+    q: "Can I clean a screenshot the same way?",
+    a: "Yes. Screenshots are PNG files and usually carry less than a camera photo — no GPS, but often the device model, the exact time, the operating system and sometimes the app that captured them. The cleaner removes those chunks the same way it cleans any PNG. One caution: a screenshot of a photo is not a substitute for cleaning the photo itself. It is a lower-resolution copy with its own fresh metadata, so if the original file is what you plan to share, clean the original.",
+  },
+  {
     group: "Video",
     q: "Does it work on video too?",
     a: "Yes. The video metadata remover supports MP4, MOV, M4V, WebM, MKV and AVI. It removes metadata and GPS telemetry without re-encoding the video or audio streams.",
@@ -125,6 +135,16 @@ export const faqs: Faq[] = [
     group: "Video",
     q: "Can I clean more than one video at a time?",
     a: "Not at the moment. Video processing is far heavier than image processing, so each upload gets a dedicated worker and the queue stays short and predictable for everyone. Images can still be cleaned 20 at a time.",
+  },
+  {
+    group: "Video",
+    q: "Can I remove metadata from a GoPro, action camera or drone video?",
+    a: "Yes — those are exactly the files that need it most. Action cameras and drones record a timed telemetry track alongside the picture: GPS position, speed and altitude, often several times a second for the whole flight or ride. GoPro stores it as GPMF, drones and phones use their own timed tracks. The cleaner drops the whole telemetry track rather than copying it across, together with the container tags and device names, while the video and audio streams are copied untouched.",
+  },
+  {
+    group: "Video",
+    q: "Will cleaning remove my subtitles or chapters?",
+    a: "Subtitle tracks are part of the programme, not metadata, so they are preserved wherever the container can hold them. Text tags are different: titles, descriptions, comments and chapter names stored as container metadata are removed with the rest. If your chapters matter to you, keep your original master file — as with any cleaning, your archive copy should stay exactly as it was, and only the copy you share gets cleaned.",
   },
 ];
 

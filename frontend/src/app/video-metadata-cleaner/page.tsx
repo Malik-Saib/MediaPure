@@ -40,6 +40,24 @@ const REMOVED = [
   { icon: Film, title: "Titles & comments", text: "Titles, descriptions, comments, chapter names, artist and copyright fields and album groupings." },
 ];
 
+const FORMATS = [
+  { title: "MP4", text: "The default for phones, cameras and exports. Metadata lives in the moov atom: a udta tag block with title, dates and encoder, a dedicated location atom holding GPS coordinates, and handler names that identify the recording device. The mvhd, tkhd and mdhd headers carry their own creation times, which is why files cleaned by tag-only tools still leak dates." },
+  { title: "MOV", text: "QuickTime's container, used by iPhones and most cameras. MOV adds Apple's own metadata keys on top of the MP4 structure, including the ©xyz location atom and make/model fields written by the Camera app. A MOV from an iPhone can name the exact device, the software version and where it was filmed, all before the first frame plays." },
+  { title: "WebM", text: "The web-native container, built on Matroska. Tags are simpler than MP4's but still carry titles, encoder names and muxing dates — and many conversion tools copy tags across from the source file without saying so, so a WebM made for a website can quietly keep the original recording details." },
+  { title: "MKV", text: "Matroska, the archivist's format. MKV has the richest tag system of the five: a full tag hierarchy that can describe title, performers, dates and comments at file, track and even chapter level, plus arbitrary attachments. We rebuild the container without the tag tree while every stream inside is copied untouched." },
+  { title: "AVI", text: "The oldest container here, and easy to underestimate. AVI stores metadata in LIST INFO chunks — name, artist, copyright, creation date, the software that wrote the file — and some cameras and editors append their own chunks after the video data. Those chunks are dropped when the container is rewritten." },
+  { title: "M4V", text: "Apple's MP4 variant, common in older iTunes and device exports. Structurally it behaves like MP4, with the same tag atoms for title, dates, encoding tool and purchase-era account fields in files that passed through a store. It is cleaned through the same container rewrite as MP4." },
+];
+
+const USE_CASES = [
+  ["Action cameras & drones", "A ride or flight clip can carry your whole route, second by second. Clean it before it goes anywhere public."],
+  ["Selling or renting a home", "Walkthrough videos are filmed at the property and usually shot on a phone that tags them. The address is visible; the coordinates don't need to be."],
+  ["Family clips", "The videos most likely to be forwarded at original quality — birthdays, school events, holidays — with the location and device riding along."],
+  ["Client rushes & reviews", "Send previews without project names, editor history or machine details embedded in the file your client downloads."],
+  ["Dashcam footage", "Useful evidence, but the same file logs everywhere else you drove. Clean the copy you share; keep the original untouched."],
+  ["Stock & portfolio footage", "Publish work samples without the camera body, serial-linked handler names or the shoot location attached to every download."],
+];
+
 const KEPT = [
   ["Resolution", "Every pixel dimension is untouched. A 4K clip stays 4K."],
   ["Frame rate", "Constant or variable, the timing of every frame is preserved."],
@@ -188,6 +206,67 @@ export default function VideoToolPage() {
             ))}
           </dl>
         </div>
+      </section>
+
+      <section className="wrap section-lg">
+        <SectionHeading
+          title="Format by format: where video metadata hides"
+          description="Five containers, five different hiding places — plus Apple's M4V variant. A cleaner that only strips one tag block will always miss the rest."
+        />
+        <div className="mt-12 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
+          {FORMATS.map((f) => (
+            <div key={f.title}>
+              <h3 className="font-bold">{f.title}</h3>
+              <p className="mt-1.5 text-sm leading-6 text-muted">{f.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="border-t border-line bg-paper">
+        <div className="wrap section-lg grid gap-12 lg:grid-cols-2 lg:items-start">
+          <div>
+            <h2 className="t-section">The track inside the track: telemetry</h2>
+            <p className="t-lead mt-5 text-muted">
+              A photo with GPS tells someone where you stood for one second. A video from an action
+              camera, a drone or a modern phone can tell them where you were for every second of the
+              recording. Alongside the video and audio sits a third, timed track: GPS position, speed,
+              altitude, sometimes heart rate and g-force, sampled again and again from start to finish.
+              Played back on a map, it draws your route — the road you took, the trail you rode, the
+              street you live on at the start of the clip.
+            </p>
+          </div>
+          <div>
+            <p className="leading-7 text-ink-2">
+              Each maker stores this track differently. GoPro writes it as GPMF data inside the MP4;
+              Apple uses its mebx timed track; Google&apos;s format is CAMM; Sony records RTMD. Because
+              these are separate tracks rather than tags, most metadata tools never see them at all —
+              they strip the title and dates, declare the file clean, and copy the telemetry track
+              straight across into the &quot;cleaned&quot; video.
+            </p>
+            <p className="mt-4 leading-7 text-ink-2">
+              This cleaner treats a timed telemetry track as metadata, not content. The track is dropped
+              entirely — never copied, never rewritten — while the video and audio streams are carried
+              over packet for packet and checksummed to prove it. What remains still looks, sounds and
+              plays exactly like your original; it just no longer remembers the journey.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="wrap section-lg">
+        <SectionHeading
+          title="When a video needs cleaning before it leaves your hands"
+          description="The picture is meant to be shared. The route, the device and the project history usually are not."
+        />
+        <dl className="mt-10 grid gap-x-10 gap-y-7 sm:grid-cols-2 lg:grid-cols-3">
+          {USE_CASES.map(([term, detail]) => (
+            <div key={term}>
+              <dt className="font-bold text-ink">{term}</dt>
+              <dd className="mt-1.5 text-sm leading-6 text-muted">{detail}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
       <section className="wrap section-lg">
