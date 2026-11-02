@@ -16,6 +16,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["/guides/remove-exif-mac", 0.8, "yearly"],
     ["/guides/remove-gps-from-photo", 0.8, "yearly"],
     ["/guides/remove-c2pa-content-credentials", 0.8, "yearly"],
+    ["/guides/remove-gopro-drone-telemetry", 0.8, "yearly"],
+    ["/guides/how-to-check-photo-metadata", 0.8, "yearly"],
+    ["/guides/remove-metadata-from-screenshots", 0.8, "yearly"],
+    ["/guides/photo-metadata-safety-marketplace-selling", 0.8, "yearly"],
+    ["/guides/remove-metadata-from-screen-recordings", 0.8, "yearly"],
   ];
   return [
     ...pages.map(([p, priority, changeFrequency]) => ({ url: absolute(p), lastModified: now, priority, changeFrequency })),
